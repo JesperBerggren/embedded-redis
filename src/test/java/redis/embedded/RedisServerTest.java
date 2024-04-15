@@ -1,7 +1,8 @@
 package redis.embedded;
 
 import com.google.common.io.Resources;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.embedded.exceptions.RedisBuildingException;
@@ -11,14 +12,17 @@ import redis.embedded.util.OS;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class RedisServerTest {
 
 	private RedisServer redisServer;
 
-	@Test(timeout = 1500L)
+	@Test
+	@Timeout(value = 1500, unit = TimeUnit.MILLISECONDS)
 	public void testSimpleRun() throws Exception {
 		redisServer = new RedisServer(6379);
 		redisServer.start();
@@ -26,15 +30,17 @@ public class RedisServerTest {
 		redisServer.stop();
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void shouldNotAllowMultipleRunsWithoutStop() throws Exception {
-		try {
-			redisServer = new RedisServer(6379);
-			redisServer.start();
-			redisServer.start();
-		} finally {
-			redisServer.stop();
-		}
+		assertThrows(RuntimeException.class, () -> {
+			try {
+				redisServer = new RedisServer(6379);
+				redisServer.start();
+				redisServer.start();
+			} finally {
+				redisServer.stop();
+			}
+		});
 	}
 
 	@Test
@@ -108,17 +114,19 @@ public class RedisServerTest {
                 .build();
     }
 
-    @Test(expected = RedisBuildingException.class)
+    @Test
     public void shouldFailWhenBadExecutableGiven() throws Exception {
-        RedisExecProvider buggyProvider = RedisExecProvider.defaultProvider()
-                .override(OS.UNIX, "some")
-                .override(OS.WINDOWS, Architecture.x86, "some")
-                .override(OS.WINDOWS, Architecture.x86_64, "some")
-                .override(OS.MAC_OS_X, "some");
+		assertThrows(RedisBuildingException.class, () -> {
+			RedisExecProvider buggyProvider = RedisExecProvider.defaultProvider()
+				.override(OS.UNIX, "some")
+				.override(OS.WINDOWS, Architecture.x86, "some")
+				.override(OS.WINDOWS, Architecture.x86_64, "some")
+				.override(OS.MAC_OS_X, "some");
 
-        redisServer = new RedisServerBuilder()
-                .redisExecProvider(buggyProvider)
-                .build();
+			redisServer = new RedisServerBuilder()
+				.redisExecProvider(buggyProvider)
+				.build();
+		});
     }
 
 	@Test

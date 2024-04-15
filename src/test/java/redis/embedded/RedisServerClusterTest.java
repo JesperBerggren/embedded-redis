@@ -1,19 +1,19 @@
 package redis.embedded;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RedisServerClusterTest {
 
     private RedisServer redisServer1;
     private RedisServer redisServer2;
 
-    @Before
+    @BeforeAll
     public void setUp() throws Exception {
         redisServer1 = RedisServer.builder()
                 .port(6300)
@@ -47,7 +47,7 @@ public class RedisServerClusterTest {
     }
 
 
-    @After
+    @AfterAll
     public void tearDown() throws Exception {
         redisServer1.stop();
         redisServer2.stop();

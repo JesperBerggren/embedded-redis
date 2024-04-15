@@ -1,8 +1,8 @@
 package redis.embedded;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.embedded.exceptions.EmbeddedRedisException;
 
 import java.io.*;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 abstract class AbstractRedisInstance implements Redis {
 
-    private static Log log = LogFactory.getLog(AbstractRedisInstance.class);
+    private static Logger  log = LoggerFactory.getLogger(AbstractRedisInstance.class);
 
     protected List<String> args = Collections.emptyList();
     private volatile boolean active = false;

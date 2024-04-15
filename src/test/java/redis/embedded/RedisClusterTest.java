@@ -1,8 +1,9 @@
 package redis.embedded;
 
 import com.google.common.collect.Sets;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
 import redis.embedded.util.JedisUtil;
@@ -11,7 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -24,7 +26,7 @@ public class RedisClusterTest {
 
     private RedisCluster instance;
 
-    @Before
+    @BeforeAll
     public void setUp() throws Exception {
         sentinel1 = mock(Redis.class);
         sentinel2 = mock(Redis.class);

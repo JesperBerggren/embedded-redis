@@ -1,7 +1,8 @@
 package redis.embedded;
 
 import com.google.common.collect.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
 
@@ -10,13 +11,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class RedisSentinelTest {
     private RedisSentinel sentinel;
     private RedisServer server;
 
-    @Test(timeout = 3000L)
+    @Test
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void testSimpleRun() throws Exception {
         server = new RedisServer();
         sentinel = RedisSentinel.builder().build();

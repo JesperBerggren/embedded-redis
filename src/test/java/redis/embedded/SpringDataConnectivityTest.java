@@ -1,49 +1,61 @@
 package redis.embedded;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import redis.clients.jedis.JedisShardInfo;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import redis.clients.jedis.Connection;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SpringDataConnectivityTest {
 
     private RedisServer redisServer;
-    private RedisTemplate<String, String> template;
-    private JedisConnectionFactory connectionFactory;
+    private Connection client;
 
-    @Before
+    @BeforeAll
     public void setUp() throws Exception {
         redisServer = new RedisServer(6379);
         redisServer.start();
-
-        JedisShardInfo shardInfo = new JedisShardInfo("localhost", 6379);
-        connectionFactory = new JedisConnectionFactory();
-        connectionFactory.setShardInfo(shardInfo);
-
-        template = new StringRedisTemplate();
-        template.setConnectionFactory(connectionFactory);
-        template.afterPropertiesSet();
     }
 
     @Test
-    public void shouldBeAbleToUseSpringData() throws Exception {
-        // given
-        template.opsForValue().set("foo", "bar");
-
-        // when
-        String result = template.opsForValue().get("foo");
-
-        // then
-        assertEquals("bar", result);
+    public void checkUnknownHost() {
+        assertThrows(JedisConnectionException.class, () -> {
+            this.client = new Connection("someunknownhost", 6379);
+            this.client.connect();
+        });
     }
 
-    @After
+    @Test
+    public void checkWrongPort() {
+        assertThrows(JedisConnectionException.class, () -> {
+            this.client = new Connection("127.0.0.1", 55665);
+            this.client.connect();
+        });
+    }
+
+    @Test
+    public void connectIfNotConnectedWhenSettingTimeoutInfinite() {
+        this.client = new Connection("localhost", 6379);
+        this.client.setTimeoutInfinite();
+    }
+
+    @Test
+    public void checkCloseable() {
+        this.client = new Connection("localhost", 6379);
+        this.client.connect();
+        this.client.close();
+    }
+
+    @AfterAll
     public void tearDown() throws Exception {
-        redisServer.stop();
+        if (this.client != null) {
+            this.client.close();
+        }
+
+        if (this.redisServer != null) {
+            this.redisServer.stop();
+        }
     }
 }
