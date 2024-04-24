@@ -20,12 +20,12 @@
         </license>
     </licenses>
 
-    <!--<scm>
+    <scm>
         <url>https://github.com/jesperberggren/embedded-redis</url>
         <connection>scm:git:https://github.com/jesperberggren/embedded-redis.git</connection>
         <developerConnection>scm:git:https://github.com/jesperberggren/embedded-redis.git</developerConnection>
-        <tag>embedded-redis-0.7.2</tag>
-    </scm>-->
+        <tag>embedded-redis-0.1.0</tag>
+    </scm>
 
     <developers>
         <developer>
