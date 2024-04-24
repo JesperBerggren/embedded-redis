@@ -1,26 +1,12 @@
 embedded-redis
 ==============
 
-Redis embedded server for Java integration testing
+Redis embedded server for Java integration testing.
 
-Fork Notes
-==============
-This repository clones from [kstyrc](https://github.com/kstyrc/embedded-redis) original repository.
-The aim is to release some long waiting fixes.
+Forked from [ozimov](https://github.com/ozimov/embedded-redis) which again was forked from [kstyrc](https://github.com/kstyrc/embedded-redis). <br />
+Forked because both ozimov and kstyrc repositories doesn't appear to be maintained anymore.
 
-
-**Source Website:** *[github.com/ozimov/embedded-redis](http://github.com/ozimov/embedded-redis/)*<br />
-
-**Latest Release:** *0.7.3* <br />
-**Latest Artifact:** *it.ozimov:embedded-redis* <br />
-**Continuous Integration:** <br />
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/it.ozimov/embedded-redis/badge.svg)](https://maven-badges.herokuapp.com/maven-central/it.ozimov/embedded-redis)
-<br />
-[![Build Status](https://travis-ci.org/ozimov/embedded-redis.svg?branch=master)](https://travis-ci.org/ozimov/embedded-redis)
-[![codecov.io](https://codecov.io/github/ozimov/embedded-redis/coverage.svg?branch=master)](https://codecov.io/github/ozimov/embedded-redis?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/7a4364b93df6473fb18a597e900edceb)](https://www.codacy.com/app/roberto-trunfio/embedded-redis)
-
-![codecov.io](https://codecov.io/github/ozimov/embedded-redis/branch.svg?branch=master)
+The primary goal of this fork is to keep the library up to date with all the latest versions/dependencies.
 
 Maven dependency
 ==============
@@ -151,6 +137,15 @@ public class SomeIntegrationTestThatRequiresRedis {
 The above will create and start a cluster with sentinels on ports ```26739, 26912```, first replication group on ```6667, 6668```,
 second replication group on ```6387, 6379``` and third replication group on ephemeral ports.
 
+Redis binaries
+==============
+Redis binaries are included in the library by default, but they are very old. 
+You should probably provide your own binaries to match a more recent version of Redis.
+
+IF no RedisExecProvider is given the code will attempt to discover which OS and Architecture is being used and choose an appropriate binary.
+
+Not all operating systems and architectures are supported.
+
 Redis version
 ==============
 
@@ -175,29 +170,3 @@ Contributors
  * Artem Orobets ([@enisher](http://github.com/enisher))
  * Sean Simonsen ([@SeanSimonsen](http://github.com/SeanSimonsen))
  * Rob Winch ([@rwinch](http://github.com/rwinch))
-
-
-Changelog
-==============
-
-### 0.6
- * Support JDK 6 +
-
-### 0.5
- * OS detection fix
- * redis binary per OS/arch pair
- * Updated to 2.8.19 binary for Windows
-
-### 0.4 
- * Updated for Java 8
- * Added Sentinel support
- * Ability to create arbitrary clusters on arbitrary (ephemeral) ports
- * Updated to latest guava 
- * Throw an exception if redis has not been started
- * Redis errorStream logged to System.out
-
-### 0.3
- * Fluent API for RedisServer creation
-
-### 0.2
- * Initial decent release
