@@ -14,9 +14,9 @@ Maven dependency
 Maven Central:
 ```xml
 <dependency>
-  <groupId>it.ozimov</groupId>
+  <groupId>io.github.jesperberggren</groupId>
   <artifactId>embedded-redis</artifactId>
-  <version>0.7.3</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
@@ -142,7 +142,7 @@ Redis binaries
 Redis binaries are included in the library by default, but they are very old. 
 You should probably provide your own binaries to match a more recent version of Redis.
 
-IF no RedisExecProvider is given the code will attempt to discover which OS and Architecture is being used and choose an appropriate binary.
+If no RedisExecProvider is given the code will attempt to discover which OS and Architecture is being used and choose an appropriate binary.
 
 Not all operating systems and architectures are supported.
 
